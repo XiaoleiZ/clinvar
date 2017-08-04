@@ -212,11 +212,11 @@ def parse_clinvar_tree(handle, dest=sys.stdout, multi=None, verbose=True, genome
                 attribute_value=attribute_node.find('./Attribute').text;
             
                 #find hgvs_c
-                if(attribute_type=='HGVS, coding, RefSeq'):
+                if(attribute_type=='HGVS, coding, RefSeq' and "c." in attribute_value):
                     current_row['hgvs_c']=attribute_value
             
                 #find hgvs_p
-                if(attribute_type=='HGVS, protein, RefSeq'):
+                if(attribute_type=='HGVS, protein, RefSeq' and "p." in attribute_value):
                     current_row['hgvs_p']=attribute_value
             
                 #aggregate all molecular consequences

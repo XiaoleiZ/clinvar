@@ -53,7 +53,8 @@ gold_stars_table = list(
   'criteria provided, conflicting interpretations' = 1, 
   'criteria provided, multiple submitters, no conflicts' = 2, 
   'reviewed by expert panel' = 3,
-  'practice guideline' = 4
+  'practice guideline' = 4,
+  '-' = '-'
 )
 
 # add some layers of interpretation on top of this
