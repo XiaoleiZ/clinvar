@@ -62,14 +62,15 @@ gold_stars_table = list(
 # it is not in any of the available FTP downloads, so this is a stopgap
 combined$gold_stars = sapply(combined$review_status, function(k) { gold_stars_table[[k]] })
 
-# pathogenic = 1 if at least one submission says path or likely path, 0 otherwise
-combined$pathogenic = as.integer(grepl('athogenic',combined$clinical_significance))
+#The use of expressions on clinical significance on ClinVar aggregate records (RCV) https://www.ncbi.nlm.nih.gov/clinvar/docs/clinsig/#conflicts
+# conflicted = 1 if using "conflicting" 
+combined$conflicted = as.integer(grepl('onflicting',combined$clinical_significance))
 
-# conflicted = 1 if at least one submission each of [likely] benign and [likely] pathogenic
-combined$conflicted = as.integer(grepl('athogenic',combined$clinical_significance) & grepl('enign',combined$clinical_significance))
+# pathogenic = 1 if the submission says "pathogenic" and conflicted = 0
+combined$pathogenic = as.integer(grepl('athogenic',combined$clinical_significance)) & as.integer(!grepl('onflicting',combined$clinical_significance))
 
-# benign = 1 if at least one submission says benign or likely benign, 0 otherwise
-combined$benign = as.integer(grepl('enign',combined$clinical_significance))
+# benign = 1 if the submission says "benign" and conflicted = 0
+combined$benign = as.integer(grepl('enign',combined$clinical_significance)) & as.integer(!grepl('onflicting',combined$clinical_significance))
 
 # re-order the columns
 combined = combined[,c('chrom','pos','ref','alt','measureset_type','measureset_id','rcv','allele_id','symbol', 'hgvs_c','hgvs_p','molecular_consequence','clinical_significance', 'pathogenic', 'benign', 'conflicted', 'review_status','last_evaluated', 'gold_stars','all_submitters','all_traits','all_pmids', 'inheritance_modes', 'age_of_onset','prevalence', 'disease_mechanism', 'origin', 'xrefs')]
